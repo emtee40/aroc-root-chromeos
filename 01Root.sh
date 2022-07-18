@@ -765,7 +765,7 @@ echo "Copying sh from system/bin/sh to system/xbin/sugote-mksh and setting permi
 
 cd $system/bin
 
-  cp $system/bin/sh ../xbin/sugote-mksh
+  cp $system/bin/sh $system/xbin/sugote-mksh
 
 cd $system/xbin
 
@@ -824,7 +824,7 @@ cd $system/etc
 
 echo "Symlinking system/bin/install-recovery.sh to system/etc/install-recovery.sh"
 
-  ln -s -r install-recovery.sh ../bin/install-recovery.sh
+  ln -s -r install-recovery.sh $system/bin/install-recovery.sh
   
 echo "Adding system/bin/daemonsu-service.sh"
 
@@ -838,11 +838,11 @@ chcon u:object_r:toolbox_exec:s0  $system/bin/daemonsu-service.sh
 
 echo "Creating file init.super.rc in Android rootfs"
 
-touch  $system/../init.super.rc
+touch  $system/xbin/init.super.rc
 
-chmod 0750 $system/../init.super.rc
-chown 655360 $system/../init.super.rc
-chgrp 657360 $system/../init.super.rc
+chmod 0750 $system/xbin/init.super.rc
+chown 655360 $system/xbin/init.super.rc
+chgrp 657360 $system/xbin/init.super.rc
 
 echo "Adding daemonsu service to init.super.rc"
 
@@ -850,11 +850,11 @@ echo "service daemonsu /system/bin/daemonsu-service.sh service
     class late_start
     user root
     seclabel u:r:supersu:s0
-    oneshot" >>  $system/../init.super.rc
+    oneshot" >>  $system/xbin/init.super.rc
     
 echo "Adding 'import /init.super.rc' to existing init.rc"
 
-sed -i '7iimport /init.super.rc' $system/../init.rc
+sed -i '7iimport /init.super.rc' $system/xbin/init.rc
 
 # In recent CrOS versions (v70+), for a writable /system, currently it also seems to be necessary to edit init.rc (to switch 'ro' to 'rw')
 
